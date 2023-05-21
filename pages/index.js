@@ -5,8 +5,9 @@ import CarouselComponent from "../components/CarouselComponent";
 import Footer from "../components/Footer";
 import NavBar from "../components/Navbar";
 import { client } from "../lib/apollo";
+import reverse from "../components/utls";
 
-export default function Home({ posts }) {
+export default function Home({ posts, navMenuItems }) {
   return (
     <div style={{ width: "100%" }}>
       <Head>
@@ -14,7 +15,7 @@ export default function Home({ posts }) {
         <link rel="icon" href="favicon.svg"></link>
       </Head>
 
-      <NavBar />
+      <NavBar navMenu={navMenuItems} />
       <main role="main">
         <CarouselComponent carousels={posts} />
         <BodyItems bodyItems={posts} />
@@ -44,14 +45,31 @@ export async function getStaticProps() {
       }
     }
   `;
+  const Get_Nav_Menu = gql`
+    query GetNavItem {
+      navmenu {
+        nodes {
+          navmenuItem {
+            navmenuItem
+          }
+        }
+      }
+    }
+  `;
   const response = await client.query({
     query: GET_POSTS,
   });
 
-  const posts = response?.data?.posts?.nodes;
+  const navMenu = await client.query({
+    query: Get_Nav_Menu,
+  });
+
+  const posts = reverse(response?.data?.posts?.nodes);
+  const navMenuItems = reverse(navMenu?.data?.navmenu?.nodes);
   return {
     props: {
       posts,
+      navMenuItems,
     },
   };
 }

@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-export default function NavBar() {
+export default function NavBar({ navMenu }) {
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -18,11 +18,21 @@ export default function NavBar() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">Link</Nav.Link>
-              <Nav.Link href="#" disabled>
-                Disabled
-              </Nav.Link>
+              {navMenu.map((item, index) => {
+                return (
+                  <Nav.Link
+                    href="#action1"
+                    disabled={
+                      item?.navmenuItem?.navmenuItem === "Disabled"
+                        ? true
+                        : false
+                    }
+                    key={index}
+                  >
+                    {item?.navmenuItem?.navmenuItem}
+                  </Nav.Link>
+                );
+              })}
             </Nav>
             <Form className="d-flex">
               <Form.Control
