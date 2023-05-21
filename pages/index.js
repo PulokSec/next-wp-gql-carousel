@@ -3,7 +3,7 @@ import Head from "next/head";
 import BodyItems from "../components/BodyItems";
 import CarouselComponent from "../components/CarouselComponent";
 import Footer from "../components/Footer";
-import NavBar from "../components/Navbar";
+import NavBar from "../components/NavBar";
 import { client } from "../lib/apollo";
 import reverse from "../components/utls";
 
